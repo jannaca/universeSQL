@@ -1,0 +1,116 @@
+CREATE TABLE galaxy(
+galaxy_id SERIAL NOT NULL PRIMARY KEY,
+name VARCHAR(200) NOT NULL UNIQUE,
+description TEXT NOT NULL,
+age INT,
+number_of_stars INT
+);
+
+CREATE TABLE star(
+star_id SERIAL NOT NULL PRIMARY KEY,
+name VARCHAR(200) NOT NULL UNIQUE,
+temperature_k INT,
+magnitude NUMERIC(10,2),
+galaxy_id INT NOT NULL REFERENCES galaxy(galaxy_id)
+);
+
+CREATE TABLE planet(
+planet_id SERIAL NOT NULL PRIMARY KEY,
+name VARCHAR(200) NOT NULL UNIQUE,
+diameter NUMERIC(10,2),
+temperature_k INT,
+has_life BOOLEAN,
+has_atmosphere BOOLEAN,
+star_id INT NOT NULL REFERENCES star(star_id)
+);
+
+CREATE TABLE moon(
+moon_id SERIAL NOT NULL PRIMARY KEY,
+name VARCHAR(200) NOT NULL UNIQUE,
+magnitude NUMERIC(10,2),
+has_water_ice BOOLEAN,
+planet_id INT NOT NULL REFERENCES planet(planet_id)
+);
+
+CREATE TABLE observatory(
+observatory_id SERIAL NOT NULL PRIMARY KEY,
+name VARCHAR(200) NOT NULL UNIQUE,
+country VARCHAR(200),
+location VARCHAR(200),
+fundation_date DATE
+);
+
+INSERT INTO galaxy( name, description ,age, number_of_stars) 
+VALUES 
+('Milky Way', ' A spiral galaxy where the solar system is located', 13,100),
+('Andromeda', ' The nearest major galaxy to the Milky Way',10,1000),
+('Whirlpool', 'A classic spiral galaxy with a prominent companion galaxy interacting with it.',13, 160),
+('Sombrero', ' A lenticular galaxy with a prominent dust lane encircling its bright central bulge',13,500),
+('Magellanic Clouds','A pair of dwarf galaxies that are satellites of the Milky Way, visible from the Southern Hemisphere.',13,9),
+('Cartwheel','A ring galaxy formed by a collision with a smaller galaxy, creating a striking ring of star formation.',14,400);
+
+INSERT INTO star(name, temperature_k, magnitude,galaxy_id) 
+VALUES
+('Sirio',9940,-1.46,1),
+('Betelgeuse',3500,0.42,1),
+('M31-V V1',5000,12.00,2),
+('Star A',10000,-5.10,6),
+('Star C', 8000,-3.00,5),
+('Virgo A',5800,4.83,4);
+
+INSERT INTO star(name, temperature_k, magnitude,galaxy_id)
+VALUES
+('Sun',5778,4.83,1),
+('Vega',9602,0.03,4);
+
+INSERT INTO planet(name, diameter, temperature_k,has_life,has_atmosphere,star_id) 
+VALUES
+('Earth',12742,288,TRUE, TRUE,7),
+('Mars',6779,210, FALSE, TRUE,7),
+('Kepler',14500,265,TRUE, TRUE,2),
+('Gliese 581c',16000,220,TRUE,TRUE,8),
+('Aurora',13000,290,TRUE, TRUE,4),
+('Titania',11000,220,FALSE, TRUE,6),
+('Colossus',18000,250,FALSE, FALSE,3),
+('Helios',14000,300, TRUE,TRUE,4),
+('Horizon', 12500,260, FALSE, FALSE,1),
+('Zenith',15000,270,TRUE,TRUE,2),
+('Proximab', 12000,200, FALSE,TRUE,1),
+('HD 209458b',14300,1500,FALSE, FALSE,1);
+
+INSERT INTO moon(name, magnitude, has_water_ice,planet_id) 
+VALUES
+('Moon',-12.74,FALSE,1),
+('Phobos',11.18,FALSE,2),
+('Deimos',12.45,FALSE,2),
+('Europa',5.29,TRUE,11),
+('Titan',8.28,TRUE,4),
+('Io',5.02,FALSE,3),
+('Borealis',-10.50,TRUE,5),
+('Umbra',12.00,FALSE,6),
+('Goliath',-8.20,FALSE,7),
+('Solstice',9.50,TRUE,10),
+('Charon',-7.80,TRUE,8),
+('Ecliptica',-6.30,FALSE,9),
+('Hyperion',8.20,FALSE,7),
+('Selene',4.90,TRUE,10),
+('Miranda',7.30,FALSE,10),
+('Callisto',5.65,TRUE,5),
+('Oberon',7.90,FALSE,6),
+('Triton',-6.20,TRUE,8),
+('Enceladus',6.50,TRUE,7),
+('Rhea',6.10,TRUE,9),
+('Pandora',9.10,FALSE,3);
+
+INSERT INTO observatory(name,country,location,fundation_date)
+VALUES
+('Event Horizon Telescope', 'United States', 'Arizona','2006-01-01'),
+('Gemini Observatory','Chile','Cerro Pachon','1999-05-15'),
+('Very Large Telescope','Chile', 'Atacama Desert','1998-05-25');
+
+
+
+
+
+
+
